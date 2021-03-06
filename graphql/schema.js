@@ -11,29 +11,15 @@ const {
 const userModel = require('../database/model/user.model')
 const postModel = require('../database/model/post.model')
 
-const userFakeData = [
-    {id: "1", name: "ala", username: "ala97", password: "ala123", age: 23},
-    {id: "2", name: "abir", username: "abrbn", password: "ABIR009", age: 20},
-    {id: "3", name: "atef", username: "atouga", password: "c.R7best", age: 16},
-]
-
-const postFakeData = [
-    {id: "1", text: "Post 1 TEXT", userID: "2"},
-    {id: "2", text: "Post 2 TEXT", userID: "1"},
-    {id: "3", text: "Post 3 TEXT", userID: "2"},
-    {id: "4", text: "Post 4 TEXT", userID: "1"},
-    {id: "5", text: "Post 5 TEXT", userID: "2"},
-    {id: "6", text: "Post 6 TEXT", userID: "2"}
-]
 
 const UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
         id: {type: GraphQLID},
-        name: {type: GraphQLString},
-        username: {type: GraphQLString},
-        password: {type: GraphQLString},
-        age: {type: GraphQLInt},
+        name: {type: GraphQLNonNull(GraphQLString)},
+        username: {type: GraphQLNonNull(GraphQLString)},
+        password: {type: GraphQLNonNull(GraphQLString)},
+        age: {type: GraphQLNonNull(GraphQLInt)},
         posts: {
             type: new GraphQLList(PostType),
             resolve: (parent) => {
@@ -49,7 +35,7 @@ const PostType = new GraphQLObjectType({
     name: 'Post',
     fields: () => ({
         id: {type: GraphQLID},
-        text: {type: GraphQLString},
+        text: {type: GraphQLNonNull(GraphQLString)},
         user: {
             type: UserType,
             resolve: (parent) => {
